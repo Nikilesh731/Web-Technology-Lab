@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Online Painting Submission</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- Compact Painting Submission - 2025 -->
+</head>
+<body>
+  <div>
+    <h2>Painting Submission</h2>
+    <form action="/serverlogic" method="post" enctype="multipart/form-data" autocomplete="on">
+      <fieldset>
+        <legend>Personal</legend>
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" maxlength="30" placeholder="Full Name" required autofocus>
+        <label for="pw">Password:</label>
+        <input id="pw" name="pw" type="password" minlength="6" maxlength="20" required>
+        <label for="em">Email:</label>
+        <input id="em" name="em" type="email" required>
+        <label for="ph">Phone:</label>
+        <input id="ph" name="ph" type="tel" minlength="10" maxlength="15" required>
+        <label for="dob">DOB:</label>
+        <input id="dob" name="dob" type="date" min="1900-01-01" max="2025-07-25" required>
+      </fieldset>
+      <fieldset>
+        <legend>Painting</legend>
+        <label for="title">Title:</label>
+        <input id="title" name="title" type="text" maxlength="50" required>
+        <label for="cat">Category:</label>
+        <select id="cat" name="cat" required>
+          <option value="">--Select--</option>
+          <option>Landscape</option><option>Portrait</option>
+          <option>Abstract</option><option>Still Life</option>
+          <option>Conceptual</option>
+        </select>
+        <label for="dim">Size (cm):</label>
+        <input id="dim" name="dim" type="number" min="10" max="500" required>
+        <label>Medium:</label>
+        <input type="radio" id="oil" name="med" value="oil" required><label for="oil">Oil</label>
+        <input type="radio" id="wc" name="med" value="wc"><label for="wc">Watercolor</label>
+        <label for="file">Image:</label>
+        <input id="file" name="file" type="file" accept="image/*" required>
+        <label>Features:</label>
+        <input type="checkbox" id="f1" name="framed" value="framed"><label for="f1">Framed</label>
+        <input type="checkbox" id="f2" name="signed" value="signed"><label for="f2">Signed</label>
+        <input type="checkbox" id="f3" name="original" value="original"><label for="f3">Original</label>
+        <input type="checkbox" id="f4" name="cert" value="certified"><label for="f4">Certified</label>
+        <label for="site">Website:</label>
+        <input id="site" name="site" type="url" required>
+        <label for="sh">Theme:</label>
+        <input id="sh" name="sh" type="search" maxlength="30" required>
+        <label for="desc">Description:</label>
+        <textarea id="desc" name="desc" rows="2" maxlength="200" required></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>Confirm</legend>
+        <label for="days">Days:</label>
+        <input id="days" name="days" type="number" min="1" max="365" required>
+        <label for="prog">Progress:</label>
+        <progress id="prog" value="90" max="100">90%</progress>
+      </fieldset>
+      <input type="submit" value="Submit">
+      <input type="reset" value="Reset">
+    </form>
+  </div>
+</body>
+</html>
