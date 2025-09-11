@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Webinar Registration</title>
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box; font-family:sans-serif;}
+    body {
+      background:url('https://images.unsplash.com/photo-1581090700227-4c4f50d5d5a4') no-repeat center/cover;
+      min-height:100vh; display:flex; flex-direction:column; scroll-behavior:smooth;
+    }
+
+    /* Navbar */
+    .navbar {
+      position:fixed; top:0; width:100%;
+      background:rgba(0,0,0,0.8); color:#fff;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:10px 50px; z-index:1000;
+    }
+    .navbar img {height:40px; margin-right:10px;}
+    .navbar h1 {display:inline; font-size:1.5rem;}
+    .nav-links {list-style:none; display:flex; gap:20px;}
+    .nav-links a {
+      color:#fff; text-decoration:none; padding:8px 12px; border-radius:6px; transition:.3s;
+    }
+    .nav-links a:hover {background:#ff9800; color:#000;}
+
+    /* Sections */
+    section {
+      min-height:100vh;
+      display:flex; justify-content:center; align-items:center;
+      padding:80px 20px 20px;
+      text-align:center;
+    }
+    section p {
+      max-width:600px;
+      font-size:1.2rem;
+      background:rgba(255,255,255,0.9);
+      padding:20px; border-radius:10px;
+      box-shadow:0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Form */
+    .login-box {
+      background:rgba(255,255,255,.95);
+      padding:30px; border-radius:12px;
+      width:300px; box-shadow:0 8px 20px rgba(0,0,0,.3);
+      text-align:center;
+    }
+    .login-box h2 {margin-bottom:20px; font-size:1.4rem; color:#333;}
+    .login-box input, .login-box button {
+      width:100%; padding:12px; margin:10px 0;
+      border-radius:8px; border:1px solid #ccc;
+    }
+    .login-box input:focus {
+      border-color:#ff9800; box-shadow:0 0 8px rgba(255,152,0,.7); outline:none;
+    }
+    .login-box button {
+      background:#ff9800; border:none; color:#fff;
+      font-size:1rem; cursor:pointer; transition:.3s;
+    }
+    .login-box button:hover {background:#e68900; box-shadow:0 6px 15px rgba(0,0,0,.3);}
+    .login-box p {font-size:.9rem;}
+    .login-box a {color:#ff9800; text-decoration:none; cursor:pointer;}
+    .login-box a:hover {text-decoration:underline;}
+
+    /* Message */
+    .message {margin-top:10px; font-size:.9rem;}
+    .success {color:green;}
+    .error {color:red;}
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"><h1>Live Webinar</h1></div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#speakers">Speakers</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Home -->
+  <section id="home">
+    <!-- Registration Form -->
+    <form class="login-box" id="registerForm">
+      <h2>Register Now</h2>
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email Address" required>
+      <input type="password" id="regPassword" placeholder="Password (min 6 chars)" required>
+      <button type="submit">Join Webinar</button>
+      <p>Already registered? <a id="showLogin">Login here</a></p>
+      <div class="message" id="registerMessage"></div>
+    </form>
+
+    <!-- Login Form (hidden by default) -->
+    <form class="login-box" id="loginForm" style="display:none;">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email Address" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <p>New user? <a id="showRegister">Register here</a></p>
+      <div class="message" id="loginMessage"></div>
+    </form>
+
+    <!-- Welcome message after login -->
+    <div class="login-box" id="welcomeBox" style="display:none;">
+      <h2 id="welcomeText"></h2>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <p>Details about the upcoming webinar will be shared here. Stay tuned for exciting updates and learning opportunities.</p>
+  </section>
+
+  <!-- Speakers -->
+  <section id="speakers">
+    <p>Meet the experts and industry leaders who will speak in the webinar. Gain insights directly from professionals in the field.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <p>Email us at <b>support@webinar.com</b> for any queries or assistance regarding registration and participation.</p>
+  </section>
+
+  <script>
+    const registerForm = document.getElementById("registerForm");
+    const loginForm = document.getElementById("loginForm");
+    const welcomeBox = document.getElementById("welcomeBox");
+    const welcomeText = document.getElementById("welcomeText");
+
+    const registerMsg = document.getElementById("registerMessage");
+    const loginMsg = document.getElementById("loginMessage");
+
+    // Switch between forms
+    document.getElementById("showLogin").onclick = () => {
+      registerForm.style.display = "none";
+      loginForm.style.display = "block";
+    };
+    document.getElementById("showRegister").onclick = () => {
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
+    };
+
+    // Registration
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+
+      if (name.length < 3) {
+        registerMsg.textContent = "⚠️ Name must be at least 3 characters.";
+        registerMsg.className = "message error"; return;
+      }
+      if (!email.includes("@")) {
+        registerMsg.textContent = "⚠️ Please enter a valid email.";
+        registerMsg.className = "message error"; return;
+      }
+      if (password.length < 6) {
+        registerMsg.textContent = "⚠️ Password must be at least 6 characters.";
+        registerMsg.className = "message error"; return;
+      }
+
+      // Save user in localStorage
+      localStorage.setItem("user", JSON.stringify({name, email, password}));
+      registerMsg.textContent = "✅ Registration successful! You can now login.";
+      registerMsg.className = "message success";
+      registerForm.reset();
+    });
+
+    // Login
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user) {
+        loginMsg.textContent = "⚠️ No user registered yet.";
+        loginMsg.className = "message error"; return;
+      }
+
+      if (email === user.email && password === user.password) {
+        loginForm.style.display = "none";
+        welcomeBox.style.display = "block";
+        welcomeText.textContent = `🎉 Welcome, ${user.name}! You are logged in.`;
+      } else {
+        loginMsg.textContent = "❌ Invalid email or password.";
+        loginMsg.className = "message error";
+      }
+    });
+  </script>
+</body>
+</html>
